@@ -31,54 +31,88 @@
   <script>
     const images = ['images/bg1.jpg', 'images/bg2.jpg', 'images/bg3.jpg'];
 
-    const sentences = [
-      (name, country) => `Stage checked. Mic on. Heart not ready! ${name} in ${country} is ready to dive into BTS concert chaos again.`,
-      (name, country) => `Concert fever is back and ${name} from ${country} will be front row, even from home.`,
-      (name, country) => `Some memories don’t fade. ${name} from ${country} will be pressing play on BTS magic again.`,
-      (name, country) => `${name} in ${country} is ready to feel every second, every song, every moment again.`,
-      (name, country) => `It’s not just a concert, it’s history. And ${name} from ${country} is ready to witness it again!`,
-      (name, country) => `ARMY everywhere will be tuning in, and that includes ${name} in ${country}, streaming from day one.`,
-      (name, country) => `The stream is near and ${name} in ${country} is ready — heart open, eyes clear, playlist on.`,
-      (name, country) => `${name} in ${country} is ready to relive the music, the magic, the memories of all seven on stage together again!`,
-      (name, country) => `Every time BTS takes the stage, it feels like coming home. ${name} from ${country} will be there, 💜 wide open.`
-    ];
+  const sentences = [
+    (name, country) => `Stage checked. Mic on. Heart not ready! ${name} in ${country} is ready to dive into BTS concert chaos again.`,
+    (name, country) => `Concert fever is back and ${name} from ${country} will be front row, even from home.`,
+    (name, country) => `Some memories don’t fade. ${name} from ${country} will be pressing play on BTS magic again.`,
+    (name, country) => `${name} in ${country} is ready to feel every second, every song, every moment again.`,
+    (name, country) => `It’s not just a concert, it’s history. And ${name} from ${country} is ready to witness it again!`,
+    (name, country) => `ARMY everywhere will be tuning in, and that includes ${name} in ${country}, streaming from day one.`,
+    (name, country) => `The stream is near and ${name} in ${country} is ready — heart open, eyes clear, playlist on.`,
+    (name, country) => `${name} in ${country} is ready to relive the music, the magic, the memories of all seven on stage together again!`,
+    (name, country) => `Every time BTS takes the stage, it feels like coming home. ${name} from ${country} will be there, 💜 wide open.`
+  ];
 
-    function generateImage() {
-      const name = document.getElementById('nameInput').value.trim();
-      const country = document.getElementById('countryInput').value.trim();
+  function generateImage() {
+    const name = document.getElementById('nameInput').value.trim();
+    const country = document.getElementById('countryInput').value.trim();
 
-      if (!name || !country) {
-        alert("Please enter both your name and country.");
-        return;
+    if (!name || !country) {
+      alert("Please enter both your name and country.");
+      return;
+    }
+
+    const canvas = document.getElementById('nameCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const selectedImage = images[Math.floor(Math.random() * images.length)];
+    const selectedSentence = sentences[Math.floor(Math.random() * sentences.length)](name, country);
+
+    const image = new Image();
+    image.onload = function () {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+      ctx.textAlign = "center";
+
+      let yPosition;
+      let fontSize;
+
+      if (selectedImage.includes("bg1")) {
+        yPosition = canvas.height / 3 - 50;
+        fontSize = 30;
+        ctx.fillStyle = "white";
+        ctx.strokeStyle = "black";
+      } else if (selectedImage.includes("bg2")) {
+        yPosition = canvas.height / 3;
+        fontSize = 32;
+        ctx.fillStyle = "black"; // text black
+        ctx.strokeStyle = "white"; // border white
+      } else {
+        yPosition = canvas.height / 3; // one third height
+        fontSize = 34;
+        ctx.fillStyle = "white";
+        ctx.strokeStyle = "white"; // no border visible
       }
 
-      const canvas = document.getElementById('nameCanvas');
-      const ctx = canvas.getContext('2d');
+      ctx.font = `bold ${fontSize}px Arial`;
+      wrapText(ctx, selectedSentence, canvas.width / 2, yPosition, 500, fontSize + 6);
 
-      const selectedImage = images[Math.floor(Math.random() * images.length)];
-      const selectedSentence = sentences[Math.floor(Math.random() * sentences.length)](name, country);
+      const link = document.getElementById('downloadLink');
+      link.href = canvas.toDataURL("image/png");
+      link.style.display = "inline-block";
+    };
 
-      const image = new Image();
-      image.onload = function () {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    image.src = selectedImage;
+  }
 
-        ctx.textAlign = "center";
-
-        let yPosition;
-        let fontSize;
-
-        if (selectedImage.includes("bg1")) {
-          yPosition = canvas.height / 3 - 40;
-          fontSize = 30;
-          ctx.fillStyle = "black"; // Text color is black for bg1
-          ctx.strokeStyle = "white"; // Border color is white for bg1
-        } else if (selectedImage.includes("bg2")) {
-          yPosition = canvas.height / 3;
-          fontSize = 32;
-          ctx.fillStyle = "white";
-          ctx.strokeStyle = "black";
-        } else {
-          yPosition = canvas.height / 2 - 20; // Adjusted for bg3
-          fontSize =
-
+  function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+    const words = text.split(' ');
+    let line = '';
+    for (let n = 0; n < words.length; n++) {
+      const testLine = line + words[n] + ' ';
+      const metrics = ctx.measureText(testLine);
+      const testWidth = metrics.width;
+      if (testWidth > maxWidth && n > 0) {
+        ctx.strokeText(line, x, y);
+        ctx.fillText(line, x, y);
+        line = words[n] + ' ';
+        y += lineHeight;
+      } else {
+        line = testLine;
+      }
+    }
+    ctx.strokeText(line, x, y);
+    ctx.fillText(line, x, y);
+  }
+</script>  
