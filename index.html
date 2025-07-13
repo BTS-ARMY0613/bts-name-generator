@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>PTD On Stage Generator</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f5f5f5; }
+    input { padding: 10px; font-size: 16px; margin: 5px; width: 300px; }
+    button { padding: 10px 20px; font-size: 16px; margin-top: 10px; }
+    canvas { margin-top: 20px; border: 1px solid #ccc; }
+    a { display: block; margin-top: 15px; font-size: 18px; color: #3366cc; }
+  </style>
+</head>
+<body>
+
+  <h1>
+    Ready to Press Play on <br><span style="white-space: nowrap;">PTD On Stage Live?</span>
+  </h1>
+  <p>Enter your name and country to get your concert-ready image 💜</p>
+
+  <input type="text" id="nameInput" placeholder="Enter your name" />
+  <br>
+  <input type="text" id="countryInput" placeholder="Enter your country" />
+  <br>
+  <button onclick="generateImage()">Generate</button>
+  <br>
+  <canvas id="nameCanvas" width="600" height="600"></canvas>
+  <br>
+  <a id="downloadLink" style="display:none;" download="bts_image.png">Download Your Image</a>
+
+  <script>
+    const images = ['images/bg1.jpg', 'images/bg2.jpg', 'images/bg3.jpg'];
+
+    const sentences = [
+      (name, country) => `Stage checked. Mic on. Heart not ready! ${name} in ${country} is ready to dive into BTS concert chaos again.`,
+      (name, country) => `Concert fever is back and ${name} from ${country} will be front row, even from home.`,
+      (name, country) => `Some memories don’t fade. ${name} from ${country} will be pressing play on BTS magic again.`,
+      (name, country) => `${name} in ${country} is ready to feel every second, every song, every moment again.`,
+      (name, country) => `It’s not just a concert, it’s history. And ${name} from ${country} is ready to witness it again!`,
+      (name, country) => `ARMY everywhere will be tuning in, and that includes ${name} in ${country}, streaming from day one.`,
+      (name, country) => `The stream is near and ${name} in ${country} is ready — heart open, eyes clear, playlist on.`,
+      (name, country) => `${name} in ${country} is ready to relive the music, the magic, the memories of all seven on stage together again!`,
+      (name, country) => `Every time BTS takes the stage, it feels like coming home. ${name} from ${country} will be there, 💜 wide open.`
+    ];
+
+    function generateImage() {
+      const name = document.getElementById('nameInput').value.trim();
+      const country = document.getElementById('countryInput').value.trim();
+
+      if (!name || !country) {
+        alert("Please enter both your name and country.");
+        return;
+      }
+
+      const canvas = document.getElementById('nameCanvas');
+      const ctx = canvas.getContext('2d');
+
+      const selectedImage = images[Math.floor(Math.random() * images.length)];
+      const selectedSentence = sentences[Math.floor(Math.random() * sentences.length)](name, country);
+
+      const image = new Image();
+      image.onload = function () {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+        ctx.textAlign = "center";
+
+        let yPosition;
+        let fontSize;
+
+        if (selectedImage.includes("bg1")) {
+          yPosition = canvas.height / 3 - 40;
+          fontSize = 30;
+          ctx.fillStyle = "black"; // Text color is black for bg1
+          ctx.strokeStyle = "white"; // Border color is white for bg1
+        } else if (selectedImage.includes("bg2")) {
+          yPosition = canvas.height / 3;
+          fontSize = 32;
+          ctx.fillStyle = "white";
+          ctx.strokeStyle = "black";
+        } else {
+          yPosition = canvas.height / 2 - 20; // Adjusted for bg3
+          fontSize =
+
