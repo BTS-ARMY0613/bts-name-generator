@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>PTD On Stage Generator</title>
   <style>
-    body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f5f5f5; }
+    body { font-family: Helvetica, sans-serif; text-align: center; padding: 20px; background: #f5f5f5; }
     input { padding: 10px; font-size: 16px; margin: 5px; width: 300px; }
     button { padding: 10px 20px; font-size: 16px; margin-top: 10px; }
     canvas { margin-top: 20px; border: 1px solid #ccc; }
@@ -38,9 +38,9 @@
       (name, country) => `${name} in ${country} is ready to feel every second, every song, every moment again.`,
       (name, country) => `It’s not just a concert, it’s history. And ${name} from ${country} is ready to witness it again!`,
       (name, country) => `ARMY everywhere will be tuning in, and that includes ${name} in ${country}, streaming from day one.`,
-      (name, country) => `The album drop is near and ${name} in ${country} is ready to stream for BTS!`,
+      (name, country) => `The album drop is near and ${name} in ${country} is ready to stream for BTS! 💿`,
       (name, country) => `${name} in ${country} is ready to relive the music, the magic, the memories of all seven on stage together again!`,
-      (name, country) => `BTS live on stage feels like coming home.`
+      () => `BTS live on stage feels like coming home.`
     ];
 
     function generateImage() {
@@ -81,11 +81,11 @@
           ctx.fillStyle = "black";
           ctx.strokeStyle = "white";
         } else {
-          yPosition = canvas.height / 2.5;
+          yPosition = canvas.height / 2.8;
           fontSize = 32;
-          ctx.font = `${fontSize}px Helvetica`; // No bold for bg3
+          ctx.font = `${fontSize}px Helvetica`;
           ctx.fillStyle = "white";
-          ctx.strokeStyle = "white"; // No outline visible
+          ctx.strokeStyle = "white";
         }
 
         wrapText(ctx, selectedSentence, canvas.width / 2, yPosition, 500, fontSize + 6);
@@ -121,4 +121,5 @@
 
 </body>
 </html>
+
 
