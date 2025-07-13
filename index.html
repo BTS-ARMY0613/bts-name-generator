@@ -69,21 +69,24 @@
       let fontSize;
 
       if (selectedImage.includes("bg1")) {
-        yPosition = canvas.height / 3 - 50;
-        fontSize = 30;
-        ctx.fillStyle = "white";
-        ctx.strokeStyle = "black";
-      } else if (selectedImage.includes("bg2")) {
-        yPosition = canvas.height / 3;
-        fontSize = 32;
-        ctx.fillStyle = "black"; // text black
-        ctx.strokeStyle = "white"; // border white
-      } else {
-        yPosition = canvas.height / 3; // one third height
-        fontSize = 34;
-        ctx.fillStyle = "white";
-        ctx.strokeStyle = "white"; // no border visible
-      }
+  yPosition = canvas.height / 3 - 50;
+  fontSize = 30;
+  ctx.font = `bold ${fontSize}px Arial`;
+  ctx.fillStyle = "white";
+  ctx.strokeStyle = "black";
+} else if (selectedImage.includes("bg2")) {
+  yPosition = canvas.height / 3;
+  fontSize = 32;
+  ctx.font = `bold ${fontSize}px Arial`;
+  ctx.fillStyle = "black";
+  ctx.strokeStyle = "white";
+} else {
+  yPosition = canvas.height / 3 + 40; // one step down from one-third height
+  fontSize = 34;
+  ctx.font = `${fontSize}px Arial`; // not bold
+  ctx.fillStyle = "white";
+  ctx.strokeStyle = "white";
+}
 
       ctx.font = `bold ${fontSize}px Arial`;
       wrapText(ctx, selectedSentence, canvas.width / 2, yPosition, 500, fontSize + 6);
